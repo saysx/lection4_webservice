@@ -1,0 +1,1 @@
+<!--_footer: Xen [Электронный ресурс]. URL: https://ru.wikipedia.org/wiki/Xen (дата обращения 24.03.2020)-->

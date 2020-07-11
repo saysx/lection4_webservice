@@ -1,0 +1,27 @@
+language: python
+services:
+  - xvfb
+addons:
+  chrome: stable
+install:
+  - sudo apt update
+  - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+  - sudo apt-get install -y nodejs
+  - sudo npm install -g puppeteer --unsafe-perm=true
+  - sudo npm install -g @marp-team/marp-cli
+script:
+  - ./ci/git_merge_branches.sh
+  - python3 compile_md.py --output ./lection/_compiled.md ./lection
+  - marp --pdf --allow-local-files ./lection/_compiled.md -o lection4.pdf
+deploy:
+  cleanup: false
+  provider: releases
+  api_key:
+    secure: udDZcVvt7r04oPRArOuIXEFVr4Q7UKv045QUaXNF+uxvglx1NN668+6HTQIck/QXQDl+JuwQ2u8s0sZ9SRnof/JPvwuw+v2LG9BTj+giXAMIXXXAw1BkV58NDLS8bDYUS0MWEuM4wHC4muBn6rcLeGqHhBtbqA1DthyCqrUTFAaAxWRaS8DZONzvyyVZKDZe+e+u6bqPnVA0YrBnk1l+SgwEC+t0uT8W42zH8Qbwq9zzRP8ckgCO+UU+ZcbQXoITjJ2zBtxi7Ms4VsUAQumBd8WkpyznfXcA4IzqweIedSdt3KV52LPFLExVSbtOYXvMWew+FCQvbvwag8Uw+JlfxuKg9RixvOqOTeSpdS15QvvFL4WeZtTBzfFblohzNkbRMvsJYlTq1clcmMAvNdZDdRdjFQgIMhn78h0ooBT2DyIMI794WEj3IimHZ5VhW1m8oYQ8xe56N6mh5nV0BocJEpNl7GISsphKhdmMFD50XzF67MegbgQ6qv1k9eVy+UEQU/AHyEkpvSSqiEwd1dECazwko7t2gUVY2I2BsPu3JbvYFf0fsjnAmiTIpNdHuqDJbv3lCMaZK+u2FMzeUXxX6ROk1AFhM6xM2ClEhPgPoPq3GMESTuMdb80gE+jIOMmBOiz3t0ZZV7BEzqyWxcCfUD8PET0gDGc/FxgOiDUsRfo=
+  file: lection4.pdf
+  draft: true
+  on:
+    repo: saysx-webservice/lection4_webservice
+    tags: false
+    branch: master
+
